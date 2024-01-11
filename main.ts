@@ -17,7 +17,16 @@ app.get("/", (req, response) => {
 
 
 app.get('/api/users', (req, response) => {
-    response.send(mockUsers);
+    //request queries req.query ={a:value,b:val2  ...}
+    const { filter, value }= req.query;
+    //when both are unavalaible
+    if (!filter && !value) return response.send(mockUsers);
+    if (filter && value) return response.send(
+        mockUsers.filter((usr)=>usr[`${filter as keyof typeof mockUsers[0] }`]!.toString().includes(value as string))
+    )
+    //if not filter or one of em only
+    return response.send(mockUsers);
+
 })
 
 //route parameter (path/:paramName)

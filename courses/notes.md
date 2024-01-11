@@ -68,3 +68,29 @@ app.get("/api/users/:id", (req, res) => {
 ```
 
 params are stored in `response.params` wich is an object `{paramsidentifier:paramvalue}` for this example ;
+
+### request queries
+
+not specifed in route but included in address like `{site.com/users?filter=name&value=cool}`  
+queiies params are `filter` and `value` ; they cam be accessed in express route `path/user`  
+with `req.query` wic is an object like params `{filter:"name",value"cool"}` for this example  
+example :
+
+```ts
+app.get("/api/users", (req, response) => {
+  //get request queries req.query ={a:value,b:val2  ...}
+  const { filter, value } = req.query;
+  //when both are unavalaible
+  if (!filter && !value) return response.send(mockUsers);
+  if (filter && value)
+    return response.send(
+      mockUsers.filter((usr) =>
+        usr[`${filter as keyof (typeof mockUsers)[0]}`]!.toString().includes(
+          value as string
+        )
+      )
+    );
+  //if not filter or one of em only
+  return response.send(mockUsers);
+});
+```
