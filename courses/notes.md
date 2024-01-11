@@ -99,7 +99,7 @@ app.get("/api/users", (req, response) => {
 
 ### post request
 
-make a post rust same ways as get , but we use the `.post()` method to make it
+make a post ruquest same ways as get , but we use the `.post()` method to make it
 `app.post(path,handler)` where path:string orthe route `/api/users`, and the handleler the same as get  
 handler:(req,res):... ;
 for example
