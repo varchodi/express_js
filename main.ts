@@ -62,6 +62,20 @@ app.post('/api/users', (req, res) => {
     return res.status(201).send(newUser);
 })
 
+//a put requesr , used to update interely a record
+app.put('/api/users/:id', (req, res) => {
+    const { id } = req.params;
+    //update, or change are in req.body;
+    const { body }: { body:Partial< typeof mockUsers[0] >} = req;
+    if (isNaN(parseInt(id))) return res.sendStatus(400);
+    //find user
+    const findUsrIndex = mockUsers.findIndex(usr => usr.id === parseInt(id))
+    if (findUsrIndex === -1) return res.sendStatus(404); //not found 
+    //update user info by it index, and it index
+    mockUsers[findUsrIndex] = { id:parseInt(id),...body } as typeof mockUsers[0];
+    res.status(200).send(mockUsers[findUsrIndex]);
+})
+
 app.get('/api/products', (req, res) => {
     res.send([
         { id: 123, name: 'chicken breast', price: 12.99 },
