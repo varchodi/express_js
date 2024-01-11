@@ -3,6 +3,11 @@ import express from "express"
 const app = express();
 const port = process.env.PORT || 3000;
 
+//middleware int example
+//a function involved when a x api ...
+// example
+app.use(express.json());
+
 const mockUsers = [
     { id: 1, username: "anson", displayName: "Anson" },
     { id: 2, username: "green", displayName: "Green" },
@@ -48,6 +53,15 @@ app.get('/api/users/:id', (req, res) => {
 
 })
 
+//a port request
+app.post('/api/users', (req, res) => {
+    //req.body contain contens , it also an obj
+    console.log(req.body);
+    const newUser = { id: mockUsers[mockUsers.length - 1].id + 1, ...req.body };
+    mockUsers.push(newUser);
+    return res.status(201).send(newUser);
+})
+
 app.get('/api/products', (req, res) => {
     res.send([
         { id: 123, name: 'chicken breast', price: 12.99 },
@@ -55,6 +69,9 @@ app.get('/api/products', (req, res) => {
         {id:177,name:'chicken breast',price:12.99},
     ])
 })
+
+
+
 
 app.listen(port, () => {
     console.log(`running on podt ${port}`)

@@ -24,6 +24,8 @@ route:str ,
 handler:(req,res):any9don't know ;  
 a main or / route
 
+### get request
+
 ```ts
 app.get("/", (req, response) => {
   response.status(201).send({ msg: "hello world " });
@@ -42,7 +44,7 @@ app.get("/api/users", (req, response) => {
 });
 ```
 
-### routes params
+#### routes params
 
 to set a route params in express se use `route/:paramsidentifier` as path ,
 for this route , the params will be paramsidentifier  
@@ -69,7 +71,7 @@ app.get("/api/users/:id", (req, res) => {
 
 params are stored in `response.params` wich is an object `{paramsidentifier:paramvalue}` for this example ;
 
-### request queries
+#### request queries
 
 not specifed in route but included in address like `{site.com/users?filter=name&value=cool}`  
 queiies params are `filter` and `value` ; they cam be accessed in express route `path/user`  
@@ -93,4 +95,28 @@ app.get("/api/users", (req, response) => {
   //if not filter or one of em only
   return response.send(mockUsers);
 });
+```
+
+### post request
+
+make a post rust same ways as get , but we use the `.post()` method to make it
+`app.post(path,handler)` where path:string orthe route `/api/users`, and the handleler the same as get  
+handler:(req,res):... ;
+for example
+
+```ts
+app.post("/api/users", (req, res) => {
+  //req.body contain contens , it also an obj
+  console.log(req.body);
+  const newUser = { id: mockUsers[mockUsers.length - 1].id + 1, ...req.body };
+  mockUsers.push(newUser);
+  return res.status(201).send(newUser);
+});
+```
+
+to make that method work we used a middleware(a function that is involved when accessing a x routes,)  
+we used here an `express.json()` to get the access to the `req.body` wich contain contains from the client side
+
+```ts
+app.use(express.json());
 ```
