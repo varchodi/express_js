@@ -84,6 +84,23 @@ app.get('/api/products', (req, res) => {
     ])
 })
 
+// patch req
+//update entity record and resourse (update partially it, like only username in user ,...)
+//not overwritting 
+app.patch('/api/users/:id', (req, res) => {
+    const { id } = req.params;
+    //update, or change are in req.body;
+    const { body }: { body:Partial< typeof mockUsers[0] >} = req;
+    if (isNaN(parseInt(id))) return res.sendStatus(400);
+    //find user
+    const findUsrIndex = mockUsers.findIndex(usr => usr.id === parseInt(id));
+    if (findUsrIndex === -1) return res.sendStatus(404); //not found
+
+    //update the user record(any field ,only field that change on body)
+    mockUsers[findUsrIndex] = { ...mockUsers[findUsrIndex], ...body };
+    res.sendStatus(200);
+})
+
 
 
 

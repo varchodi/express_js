@@ -147,3 +147,24 @@ app.put("/api/users/:id", (req, res) => {
   res.status(200).send(mockUsers[findUsrIndex]);
 });
 ```
+
+### patch request
+
+samething like put , but this request update only a certain field of the record , it does not overwrite it like the put request; this request partially update a record (as it does not overwrite the other field like in put request);  
+example :
+
+```ts
+app.patch("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  //update, or change are in req.body;
+  const { body }: { body: Partial<(typeof mockUsers)[0]> } = req;
+  if (isNaN(parseInt(id))) return res.sendStatus(400);
+  //find user
+  const findUsrIndex = mockUsers.findIndex((usr) => usr.id === parseInt(id));
+  if (findUsrIndex === -1) return res.sendStatus(404); //not found
+
+  //update the user record(any field ,only field that change on body)
+  mockUsers[findUsrIndex] = { ...mockUsers[findUsrIndex], ...body };
+  res.sendStatus(200);
+});
+```
