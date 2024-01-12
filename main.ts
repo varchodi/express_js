@@ -1,4 +1,4 @@
-import express from "express"
+import express, { response } from "express"
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -99,6 +99,22 @@ app.patch('/api/users/:id', (req, res) => {
     //update the user record(any field ,only field that change on body)
     mockUsers[findUsrIndex] = { ...mockUsers[findUsrIndex], ...body };
     res.sendStatus(200);
+})
+
+//delete request
+//used to delete record in b-end ...
+app.delete("/api/users/:id", (req, res) => {
+    //req body is kinda optional
+    const { id } = req.params;
+    if (isNaN(parseInt(id))) return res.sendStatus(400);
+
+    //find user index
+    const findUsrIndex = mockUsers.findIndex(usr => usr.id === parseInt(id));
+    if (findUsrIndex === -1) return res.sendStatus(404); //not found
+
+    //remove user (using splice , we can use )
+    mockUsers.splice(findUsrIndex, 1);
+    return res.sendStatus(200);
 })
 
 

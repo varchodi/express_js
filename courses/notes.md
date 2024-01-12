@@ -16,7 +16,7 @@ app.listen(port, () => {
 
 ```
 
-#### routes
+## routes
 
 to make routes
 use app.get (route ,handler)  
@@ -125,7 +125,7 @@ app.use(express.json());
 
 use to updateinterely a record , it kinda overwrite it  
 same as post and get but we use the `.put()` method to make it
-`app.post(path,handler)` where path:string orthe route `/api/users/:id` (params are kinda optional), and the handleler the same as get  
+`app.put(path,handler)` where path:string orthe route `/api/users/:id` (params are kinda optional), and the handleler the same as get  
 handler:(req,res):... ;
 for example
 
@@ -151,6 +151,10 @@ app.put("/api/users/:id", (req, res) => {
 ### patch request
 
 samething like put , but this request update only a certain field of the record , it does not overwrite it like the put request; this request partially update a record (as it does not overwrite the other field like in put request);  
+ called by `.patch()` method to make it
+`app.patch(path,handler)` where path:string orthe route `/api/users/:id` (params are kinda optional), and the handleler the same as get  
+handler:(req,res):... ;
+for example
 example :
 
 ```ts
@@ -168,3 +172,30 @@ app.patch("/api/users/:id", (req, res) => {
   res.sendStatus(200);
 });
 ```
+
+### delete method
+
+request used to delete a record from the db , on server side ;
+called by `.delete()` method to make it
+`app.patch(path,handler)` where path:string orthe route `/api/users/:id` (params are kinda optional), and the handleler the same as get  
+handler:(req,res):... ;
+
+for example:
+
+```ts
+app.delete("/api/users/:id", (req, res) => {
+  //req body is kinda optional
+  const { id } = req.params;
+  if (isNaN(parseInt(id))) return res.sendStatus(400);
+
+  //find user index
+  const findUsrIndex = mockUsers.findIndex((usr) => usr.id === parseInt(id));
+  if (findUsrIndex === -1) return res.sendStatus(404); //not found
+
+  //remove user (using splice , we can use )
+  mockUsers.splice(findUsrIndex, 1);
+  return res.sendStatus(200);
+});
+```
+
+##
