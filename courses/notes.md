@@ -16,7 +16,7 @@ app.listen(port, () => {
 
 ```
 
-## routes
+## request
 
 to make routes
 use app.get (route ,handler)  
@@ -198,4 +198,6 @@ app.delete("/api/users/:id", (req, res) => {
 });
 ```
 
-##
+## middleware
+
+if just a midle process between many func or proccesses ...
